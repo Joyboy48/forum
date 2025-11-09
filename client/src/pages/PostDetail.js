@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { markAsAnswered, getSimilarPosts } from '../services/api';
 import SmartReply from '../components/SmartReply';
 import PostSummary from '../components/PostSummary';
+import { getPostSummary } from '../services/aiService';
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -37,7 +38,7 @@ const PostDetail = () => {
     try {
       const [similarResponse, summaryResponse] = await Promise.all([
         getSimilarPosts(id).catch(() => ({ data: { similarPosts: [] } })),
-        summarizeDiscussion(id).catch(() => ({ data: { summary: null } }))
+        getPostSummary(id).then(summary => ({ data: { summary } })).catch(() => ({ data: { summary: null } }))
       ]);
       setSimilarPosts(similarResponse.data?.similarPosts || []);
       setSummary(summaryResponse.data?.summary || null);
