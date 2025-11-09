@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PostCard from '../components/PostCard';
 import { FaSearch, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
-import { api } from '../services/api';
+import api from '../services/api';
 
 const SearchResults = () => {
   const [results, setResults] = useState([]);

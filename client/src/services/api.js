@@ -1,7 +1,13 @@
 import axios from 'axios';
 
-// In Docker, nginx proxies /api to the server, so use relative URL
-// In local dev, use the full URL
+/**
+ * API Service for the Learnato Forum
+ * This module provides a configured axios instance and all API endpoints
+ * 
+ * The API_URL is determined by:
+ * - In Docker: nginx proxies /api to the server, so use relative URL
+ * - In local dev/production: use the full URL from environment variable
+ */
 const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 const api = axios.create({
@@ -96,5 +102,21 @@ export const summarizeDiscussion = (postId) => {
   return api.get(`/ai/summarize/${postId}`);
 };
 
+// Export everything
+export {
+  getPosts,
+  getPost,
+  createPost,
+  addReply,
+  upvotePost,
+  signup,
+  login,
+  getMe,
+  markAsAnswered,
+  getSimilarPosts,
+  summarizeDiscussion,
+};
+
+// Export the api instance as default
 export default api;
 
