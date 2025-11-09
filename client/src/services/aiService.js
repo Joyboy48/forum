@@ -105,3 +105,24 @@ export const semanticSearch = async (query) => {
     return [];
   }
 };
+
+/**
+ * Get AI response for a user query about a post
+ * @param {string} query - User's question
+ * @param {string} postContent - The content of the post being discussed
+ * @returns {Promise<Object>} AI response
+ */
+export const getAIResponse = async (query, postContent) => {
+  try {
+    const response = await api.post(`${AI_API_URL}/analyze-content`, {
+      content: postContent,
+      query: query
+    });
+    return {
+      answer: response.data?.analysis?.response || 'I apologize, but I cannot generate a response at this time.'
+    };
+  } catch (error) {
+    console.error('Error getting AI response:', error);
+    throw error;
+  }
+};
