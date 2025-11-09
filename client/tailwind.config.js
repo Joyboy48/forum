@@ -7,16 +7,38 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#2563EB',  // royal blue
-        accent: '#FBBF24',   // amber
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        accent: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
+        },
         background: {
-          light: '#F8FAFC',  // off-white
-          dark: '#1E293B',   // slate gray
+          light: '#F8FAFC',
+          dark: '#0F172A',
         },
         text: {
-          primary: '#374151', // neutral gray
-          secondary: '#6B7280',
-          light: '#E5E7EB',
+          primary: '#1F2937',
+          secondary: '#4B5563',
+          light: '#F9FAFB',
         },
         border: {
           light: '#E5E7EB',
@@ -27,8 +49,8 @@ module.exports = {
         sans: ['Inter', 'Poppins', 'Nunito', 'sans-serif'],
       },
       borderRadius: {
-        xl: '1rem', // 16px
-        '2xl': '1.25rem', // 20px
+        xl: '1rem',
+        '2xl': '1.25rem',
       },
       boxShadow: {
         sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',

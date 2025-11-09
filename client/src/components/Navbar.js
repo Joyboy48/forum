@@ -4,10 +4,11 @@ import { FaComments, FaUser, FaSignOutAlt, FaMoon, FaSun, FaSearch, FaTimes } fr
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import SearchBar from './SearchBar';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
+  const { darkMode } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,14 +26,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white dark:bg-background-dark border-b border-border-light dark:border-border-dark shadow-sm sticky top-0 z-50 transition-colors duration-200">
+    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm sticky top-0 z-50 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center flex-1">
             <Link to="/" className="flex items-center space-x-3 group">
-              <FaComments className="text-primary text-2xl transition-transform group-hover:scale-110" />
-              <span className="text-xl font-bold text-primary dark:text-text-light hidden sm:block font-sans">Learnato Forum</span>
+              <FaComments className="text-blue-600 dark:text-blue-400 text-2xl transition-transform group-hover:scale-110" />
+              <span className="text-xl font-bold text-blue-600 dark:text-blue-400 hidden sm:block">Learnato Forum</span>
             </Link>
           </div>
 
@@ -70,41 +71,40 @@ const Navbar = () => {
               )}
             </button>
 
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-2xl hover:bg-background-light dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {isDark ? (
-                <FaSun className="text-text-primary dark:text-text-light text-lg" />
-              ) : (
-                <FaMoon className="text-text-primary dark:text-text-light text-lg" />
-              )}
-            </button>
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
             {user ? (
-              <div className="flex items-center space-x-4">
-                <div className="hidden sm:flex items-center gap-2 text-text-primary dark:text-text-light">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <FaUser className="text-primary text-sm" />
-                  </div>
-                  <span className="font-medium text-sm">{user.username}</span>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-2 text-text-secondary dark:text-text-light hover:text-primary dark:hover:text-accent transition-colors font-medium text-sm"
-                >
-                  <FaSignOutAlt />
-                  <span className="hidden sm:inline">Logout</span>
+              <div className="relative group">
+                <button className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <FaUser className="w-5 h-5" />
+                  <span className="hidden md:inline">{user.username}</span>
                 </button>
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block border border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
+                  >
+                    <FaSignOutAlt className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                </div>
               </div>
             ) : (
-              <Link
-                to="/login"
-                className="bg-primary text-white px-4 py-2 rounded-xl hover:bg-opacity-90 transition-all font-medium text-sm sm:text-base shadow-md hover:shadow-lg"
-              >
-                Login
-              </Link>
+              <div className="flex space-x-4">
+                <Link
+                  to="/login"
+                  className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </div>
             )}
           </div>
         </div>

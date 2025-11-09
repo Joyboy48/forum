@@ -7,7 +7,7 @@ import AISearchSuggestions from './AISearchSuggestions';
 const SearchBar = ({ onSearch, className = '', autoFocus = false, onFocusChange }) => {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const { isDark } = useTheme();
+  const { darkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const inputRef = useRef(null);
@@ -25,7 +25,6 @@ const SearchBar = ({ onSearch, className = '', autoFocus = false, onFocusChange 
     const searchQuery = query.trim();
     if (searchQuery) {
       onSearch?.(searchQuery);
-      // Only navigate if not already on search page
       if (!location.pathname.startsWith('/search')) {
         navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       }
@@ -35,7 +34,6 @@ const SearchBar = ({ onSearch, className = '', autoFocus = false, onFocusChange 
   // Handle suggestion selection
   const handleSelectSuggestion = useCallback((suggestion) => {
     setQuery(suggestion);
-    // Small delay to ensure state updates before submission
     setTimeout(() => {
       handleSubmit();
     }, 0);
@@ -55,8 +53,11 @@ const SearchBar = ({ onSearch, className = '', autoFocus = false, onFocusChange 
   };
 
   const handleBlur = () => {
-    setIsFocused(false);
-    onFocusChange?.(false);
+    // Use setTimeout to allow click events to process before hiding suggestions
+    setTimeout(() => {
+      setIsFocused(false);
+      onFocusChange?.(false);
+    }, 200);
   };
 
   return (
@@ -73,10 +74,10 @@ const SearchBar = ({ onSearch, className = '', autoFocus = false, onFocusChange 
             onBlur={handleBlur}
             placeholder="Search posts, questions, and more..."
             className={`w-full py-2 pl-10 pr-10 rounded-full border ${
-              isDark 
-                ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' 
-                : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-            } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+              darkMode 
+                ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:ring-blue-500' 
+                : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-blue-500'
+            } focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-200`}
             autoComplete="off"
             autoFocus={autoFocus}
             aria-autocomplete="list"
@@ -86,46 +87,45 @@ const SearchBar = ({ onSearch, className = '', autoFocus = false, onFocusChange 
             <button
               type="button"
               onClick={clearSearch}
-              className="absolute right-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none"
+              className="absolute right-10 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 focus:outline-none transition-colors"
               aria-label="Clear search"
             >
-              <FiX />
+              <FiX size={18} />
             </button>
           )}
           <button
             type="submit"
             className={`absolute right-2 p-1 rounded-full ${
-              isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-500 hover:text-blue-600'
-            } focus:outline-none`}
+              darkMode 
+                ? 'text-blue-400 hover:text-blue-300' 
+                : 'text-blue-500 hover:text-blue-600'
+            } focus:outline-none transition-colors`}
             aria-label="Search"
           >
             <FiChevronRight size={20} />
           </button>
         </div>
-      </form>
-      
-      {/* AI Search Suggestions */}
-      {isFocused && query.length > 1 && (
-        <div className="absolute z-10 w-full mt-1">
-          <AISearchSuggestions 
-            query={query} 
-            onSelectSuggestion={handleSelectSuggestion} 
+        
+        {/* AI Search Suggestions */}
+        {isFocused && query.length > 1 && (
+          <div className="absolute z-10 w-full mt-1">
+            <AISearchSuggestions 
+              query={query} 
+              onSelectSuggestion={handleSelectSuggestion} 
+            />
+          </div>
+        )}
+        
+        {/* Clickable overlay for mobile - allows closing search by clicking outside */}
+        {isFocused && (
+          <div 
+            className="fixed inset-0 bg-black/20 z-0 sm:hidden"
+            onClick={handleBlur}
+            aria-hidden="true"
           />
-        </div>
-        aria-label="Submit search"
-      >
-        Search
-      </button>
-      
-      {/* Clickable overlay for mobile - allows closing search by clicking outside */}
-      {isFocused && (
-        <div 
-          className="fixed inset-0 bg-black/20 z-0 sm:hidden"
-          onClick={handleBlur}
-          aria-hidden="true"
-        />
-      )}
-    </form>
+        )}
+      </form>
+    </div>
   );
 };
 
