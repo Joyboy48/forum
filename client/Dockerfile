@@ -1,14 +1,31 @@
 # client/Dockerfile
+# Build stage
 FROM node:18-alpine as build
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
+
+# Copy package files first to leverage Docker cache
+COPY client/package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy client files
+COPY client/ .
+
+# Build the application
 RUN npm run build
 
+# Production stage
 FROM nginx:alpine
-RUN apk add --no-cache wget
+
+# Copy built assets from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy nginx configuration
+COPY client/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
 EXPOSE 80
+
+# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
