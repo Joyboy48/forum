@@ -1,0 +1,19 @@
+{
+  "name": "learnato-forum",
+  "version": "1.0.0",
+  "description": "Discussion Forum Microservice for Learnato Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": ["forum", "discussion", "learnato", "microservice"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+
