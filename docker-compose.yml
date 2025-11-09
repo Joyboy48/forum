@@ -20,8 +20,8 @@ services:
 
   server:
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     container_name: learnato-server
     ports:
       - "5000:5000"
@@ -45,8 +45,8 @@ services:
 
   client:
     build:
-      context: ./client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: client/Dockerfile
     container_name: learnato-client
     ports:
       - "3000:80"
