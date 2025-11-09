@@ -26,7 +26,6 @@ const SearchResults = () => {
         
         console.log('Making search request with query:', query);
         
-        // Use the api service to make the request to the posts endpoint with search query
         const response = await api.get('/posts', {
           params: { 
             search: query.trim(),
@@ -59,7 +58,6 @@ const SearchResults = () => {
           }
         });
         
-        // Check for specific error responses
         if (err.response?.data?.error) {
           setError(`Error: ${err.response.data.error}`);
         } else {
