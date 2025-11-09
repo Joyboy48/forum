@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { getPosts, createPost, upvotePost } from '../services/api';
 import PostCard from '../components/PostCard';
 import CreatePostModal from '../components/CreatePostModal';
-import { FaPlus, FaSortAmountDown, FaFire, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaSortAmountDown, FaFire, FaSearch, FaComments } from 'react-icons/fa';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);

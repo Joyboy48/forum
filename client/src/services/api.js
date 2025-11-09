@@ -102,21 +102,5 @@ export const summarizeDiscussion = (postId) => {
   return api.get(`/ai/summarize/${postId}`);
 };
 
-// Export everything
-export {
-  getPosts,
-  getPost,
-  createPost,
-  addReply,
-  upvotePost,
-  signup,
-  login,
-  getMe,
-  markAsAnswered,
-  getSimilarPosts,
-  summarizeDiscussion,
-};
-
 // Export the api instance as default
 export default api;
-
